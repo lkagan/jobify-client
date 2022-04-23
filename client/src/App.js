@@ -16,9 +16,6 @@ const ButtonSecond = styled.button`
 function App() {
     return (
         <>
-            <Button>Click Me</Button>
-            <ButtonSecond>Click Me</ButtonSecond>
-            <h1>Jobify</h1>
             <Landing/>
         </>
     );
