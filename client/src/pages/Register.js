@@ -1,13 +1,14 @@
 import { useState } from "react";
 import Wrapper from '../assets/wrappers/RegisterPage';
 import Logo from '../components/Logo';
-import { FormRow } from "../components";
+import { Alert, FormRow } from "../components";
 
 const initialState = {
     name: '',
     email: '',
     password: '',
     isMember: true,
+    showAlert: false,
 }
 
 const Register = () => {
@@ -30,7 +31,7 @@ const Register = () => {
             >
                 <Logo/>
                 <h3>Login</h3>
-
+                { values.showAlert && <Alert message={ "testing" }/> }
                 {/* name field */ }
                 <FormRow
                     name={ "name" }
