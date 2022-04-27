@@ -29,8 +29,9 @@ const Register = () => {
 
         if (!email || !password || (!isMember && !name)) {
             displayAlert();
-        } else {
-            hideAlert();
+            setTimeout(() => {
+                hideAlert()
+            }, 3000);
         }
 
         console.log(values);
