@@ -16,10 +16,13 @@ const AppProvider = ({ children }) => {
 
     const displayAlert = () => {
         dispatch({ type: DISPLAY_ALERT });
+        hideAlert()
     }
 
     const hideAlert = () => {
-        dispatch({ type: HIDE_ALERT });
+        setTimeout(() => {
+            dispatch({ type: HIDE_ALERT });
+        }, 3000);
     }
 
     return (
