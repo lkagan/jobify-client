@@ -10,21 +10,38 @@ import {
     REGISTER_USER_ERROR
 } from "./actions";
 
+// Get default state from local storage if exists.
+const user = localStorage.getItem('user');
+const token = localStorage.getItem('token');
+const location = localStorage.getItem('location');
+
 const initialState = {
     isLoading: false,
     showAlert: false,
     alertText: '',
     alertType: '',
-    user: null,
-    token: null,
-    userLocation: '',
-    jobLocation: ''
+    user: user ? JSON.stringify(user) : null,
+    token: token,
+    userLocation: location,
+    jobLocation: location
 }
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    const addUserToLocalStorage = ({user, token, location}) => {
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
+        localStorage.setItem('location', location);
+    }
+
+    const removeUserFromLocalStorage = () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('location');
+    }
 
     const displayAlert = () => {
         dispatch({ type: DISPLAY_ALERT });
@@ -46,7 +63,7 @@ const AppProvider = ({ children }) => {
                 type: REGISTER_USER_SUCCESS,
                 payload: { user, token, location }
             });
-            // local storage later
+            addUserToLocalStorage(response.data)
         } catch (error) {
             dispatch({
                 type: REGISTER_USER_ERROR,
