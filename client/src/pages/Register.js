@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Wrapper from '../assets/wrappers/RegisterPage';
 import Logo from '../components/Logo';
 import { Alert, FormRow } from "../components";
 import { useAppContext } from "../context/appContext";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
     name: '',
@@ -14,12 +14,15 @@ const initialState = {
 
 const Register = () => {
     const [values, setValues] = useState(initialState);
+    const navigate = useNavigate();
+
     const {
         isLoading,
         showAlert,
         displayAlert,
         hideAlert,
-        registerUser
+        registerUser,
+        user
     } = useAppContext();
 
     const toggleIsMember = () => {
@@ -45,6 +48,15 @@ const Register = () => {
             displayAlert();
         }
     }
+
+    useEffect(() => {
+        if (user) {
+            // Wait for success message to show and then hide.
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        }
+    }, [user, navigate])
 
     return (
         <Wrapper className='full-page'>
