@@ -22,6 +22,7 @@ const Register = () => {
         displayAlert,
         hideAlert,
         registerUser,
+        loginUser,
         user
     } = useAppContext();
 
@@ -39,7 +40,7 @@ const Register = () => {
         const currentUser = { name, email, password };
 
         if (isMember) {
-            console.log('already a member');
+            loginUser(currentUser);
         } else {
             registerUser(currentUser);
         }
