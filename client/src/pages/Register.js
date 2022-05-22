@@ -21,8 +21,7 @@ const Register = () => {
         showAlert,
         displayAlert,
         hideAlert,
-        registerUser,
-        loginUser,
+        setupUser,
         user
     } = useAppContext();
 
@@ -39,14 +38,22 @@ const Register = () => {
         const { name, email, password, isMember } = values;
         const currentUser = { name, email, password };
 
-        if (isMember) {
-            loginUser(currentUser);
-        } else {
-            registerUser(currentUser);
+        if (!email || !password || (!isMember && !name)) {
+            return displayAlert();
         }
 
-        if (!email || !password || (!isMember && !name)) {
-            displayAlert();
+        if (isMember) {
+            setupUser({
+                currentUser,
+                endPoint: 'login',
+                alertText: 'Login successful.  Redirecting...'
+            });
+        } else {
+            setupUser({
+                currentUser,
+                endPoint: 'register',
+                alertText: 'User created.  Redirecting...'
+            });
         }
     }
 

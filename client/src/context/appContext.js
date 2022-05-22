@@ -5,12 +5,9 @@ import axios from "axios";
 import {
     DISPLAY_ALERT,
     HIDE_ALERT,
-    REGISTER_USER_BEGIN,
-    REGISTER_USER_SUCCESS,
-    REGISTER_USER_ERROR,
-    LOGIN_USER_BEGIN,
-    LOGIN_USER_SUCCESS,
-    LOGIN_USER_ERROR
+    SETUP_USER_BEGIN,
+    SETUP_USER_SUCCESS,
+    SETUP_USER_ERROR
 } from "./actions";
 
 // Get default state from local storage if exists.
@@ -57,41 +54,21 @@ const AppProvider = ({ children }) => {
         }, 3000);
     }
 
-    const registerUser = async currentUser => {
-        dispatch({ type: REGISTER_USER_BEGIN });
+    const setupUser = async ({currentUser, endPoint, alertText}) => {
+        dispatch({ type: SETUP_USER_BEGIN });
         try {
-            const response = await axios.post('/api/v1/auth/register', currentUser);
-            const {user, token, location} = response.data;
-            dispatch({
-                type: REGISTER_USER_SUCCESS,
-                payload: { user, token, location }
-            });
-            addUserToLocalStorage(response.data)
-        } catch (error) {
-            dispatch({
-                type: REGISTER_USER_ERROR,
-                payload: {msg: error.response.data.msg}
-            });
-        }
-
-        hideAlert();
-    }
-
-    const loginUser = async currentUser => {
-        dispatch({ type: LOGIN_USER_BEGIN });
-        try {
-            const { data } = await axios.post('/api/v1/auth/login', currentUser);
+            const { data } = await axios.post(`/api/v1/auth/${endPoint}`, currentUser);
             const {user, token, location} = data;
 
             dispatch({
-                type: LOGIN_USER_SUCCESS,
-                payload: { user, token, location }
+                type: SETUP_USER_SUCCESS,
+                payload: { user, token, location, alertText }
             });
 
             addUserToLocalStorage(data)
         } catch (error) {
             dispatch({
-                type: LOGIN_USER_ERROR,
+                type: SETUP_USER_ERROR,
                 payload: {msg: error.response.data.msg}
             });
         }
@@ -105,8 +82,7 @@ const AppProvider = ({ children }) => {
                 ...state,
                 displayAlert,
                 hideAlert,
-                registerUser,
-                loginUser
+                setupUser
             } }
         >
             { children }
