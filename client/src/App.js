@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Register, Error, Dashboard, Landing } from './pages';
+import { Register, Error, Landing } from './pages';
+import { AddJob, AllJobs, Profile, Stats, SharedLayout } from './pages/dashboard';
 
 const Button = styled.button`
   background: red;
@@ -21,7 +22,7 @@ function App() {
                 <Routes>
                     <Route
                         path="/"
-                        element={ <Dashboard/> }
+                        element={ <div>Dashboard</div> }
                     />
                     <Route
                         path="/register"
