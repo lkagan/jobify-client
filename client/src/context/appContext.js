@@ -7,7 +7,8 @@ import {
     HIDE_ALERT,
     SETUP_USER_BEGIN,
     SETUP_USER_SUCCESS,
-    SETUP_USER_ERROR
+    SETUP_USER_ERROR,
+    TOGGLE_SIDEBAR
 } from "./actions";
 
 // Get default state from local storage if exists.
@@ -18,6 +19,7 @@ const location = localStorage.getItem('location');
 const initialState = {
     isLoading: false,
     showAlert: false,
+    showSidebar: false,
     alertText: '',
     alertType: '',
     user: user ? JSON.stringify(user) : null,
@@ -31,7 +33,7 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const addUserToLocalStorage = ({user, token, location}) => {
+    const addUserToLocalStorage = ({ user, token, location }) => {
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('token', token);
         localStorage.setItem('location', location);
@@ -54,11 +56,11 @@ const AppProvider = ({ children }) => {
         }, 3000);
     }
 
-    const setupUser = async ({currentUser, endPoint, alertText}) => {
+    const setupUser = async ({ currentUser, endPoint, alertText }) => {
         dispatch({ type: SETUP_USER_BEGIN });
         try {
-            const { data } = await axios.post(`/api/v1/auth/${endPoint}`, currentUser);
-            const {user, token, location} = data;
+            const { data } = await axios.post(`/api/v1/auth/${ endPoint }`, currentUser);
+            const { user, token, location } = data;
 
             dispatch({
                 type: SETUP_USER_SUCCESS,
@@ -69,11 +71,15 @@ const AppProvider = ({ children }) => {
         } catch (error) {
             dispatch({
                 type: SETUP_USER_ERROR,
-                payload: {msg: error.response.data.msg}
+                payload: { msg: error.response.data.msg }
             });
         }
 
         hideAlert();
+    }
+
+    const toggleSidebar = () => {
+        dispatch({ type: TOGGLE_SIDEBAR });
     }
 
     return (
@@ -82,7 +88,8 @@ const AppProvider = ({ children }) => {
                 ...state,
                 displayAlert,
                 hideAlert,
-                setupUser
+                setupUser,
+                toggleSidebar
             } }
         >
             { children }
