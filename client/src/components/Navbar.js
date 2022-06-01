@@ -5,7 +5,7 @@ import { useAppContext } from '../context/appContext';
 import Logo from "./Logo";
 
 const Navbar = () => {
-    const { toggleSidebar, user } = useAppContext();
+    const { toggleSidebar, user, logoutUser } = useAppContext();
     const [showLogout, setShowLogout] = useState(false);
 
     return (
@@ -31,14 +31,14 @@ const Navbar = () => {
                         onClick={ () => setShowLogout(!showLogout) }
                     >
                         <FaUserCircle/>
-                        { user.name }
+                        { user?.name }
                         <FaCaretDown/>
                     </button>
                     <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
                         <button
                             type="button"
                             className="dropdown-btn"
-                            onClick={ () => console.log('logout')}
+                            onClick={ logoutUser }
                         >logout
                         </button>
                     </div>

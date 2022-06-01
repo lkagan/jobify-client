@@ -8,7 +8,8 @@ import {
     SETUP_USER_BEGIN,
     SETUP_USER_SUCCESS,
     SETUP_USER_ERROR,
-    TOGGLE_SIDEBAR
+    TOGGLE_SIDEBAR,
+    LOGOUT_USER
 } from "./actions";
 
 // Get default state from local storage if exists.
@@ -82,6 +83,11 @@ const AppProvider = ({ children }) => {
         dispatch({ type: TOGGLE_SIDEBAR });
     }
 
+    const logoutUser = () => {
+        dispatch({ type: LOGOUT_USER });
+        removeUserFromLocalStorage();
+    }
+
     return (
         <AppContext.Provider
             value={ {
@@ -89,7 +95,8 @@ const AppProvider = ({ children }) => {
                 displayAlert,
                 hideAlert,
                 setupUser,
-                toggleSidebar
+                toggleSidebar,
+                logoutUser
             } }
         >
             { children }
@@ -101,4 +108,4 @@ const useAppContext = () => {
     return useContext(AppContext);
 }
 
-export { AppProvider, useAppContext };
+export { AppProvider, useAppContext, initialState };

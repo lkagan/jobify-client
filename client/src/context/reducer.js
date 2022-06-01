@@ -1,9 +1,13 @@
+import { initialState } from "./appContext";
+
 import {
     DISPLAY_ALERT,
     HIDE_ALERT,
     SETUP_USER_BEGIN,
     SETUP_USER_SUCCESS,
-    SETUP_USER_ERROR, TOGGLE_SIDEBAR
+    SETUP_USER_ERROR,
+    TOGGLE_SIDEBAR,
+    LOGOUT_USER
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -15,12 +19,7 @@ const reducer = (state, action) => {
             alertText: 'Please provide all values!',
         }
     } else if (action.type === HIDE_ALERT) {
-        return {
-            ...state,
-            showAlert: false,
-            alertType: '',
-            alertText: ''
-        }
+        return state;
     } else if (action.type === SETUP_USER_BEGIN) {
         return { ...state, isLoading: true };
     } else if (action.type === SETUP_USER_SUCCESS) {
@@ -47,6 +46,14 @@ const reducer = (state, action) => {
         return {
             ...state,
             showSidebar: !state.showSidebar
+        }
+    } else if(action.type == LOGOUT_USER) {
+        return {
+            ...initialState,
+            user: null,
+            token: null,
+            userLocation: null,
+            jobLocation: null
         }
     }
      else {
