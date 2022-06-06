@@ -23,7 +23,7 @@ const initialState = {
     showSidebar: false,
     alertText: '',
     alertType: '',
-    user: user ? JSON.stringify(user) : null,
+    user: user ? JSON.parse(user) : null,
     token: token,
     userLocation: location,
     jobLocation: location
