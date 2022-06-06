@@ -5,13 +5,13 @@ import Logo from "./Logo";
 import NavLinks from "./NavLinks";
 
 const BigSidebar = () => {
-    const { showSideBar, toggleSidebar } = useAppContext();
+    const { showSidebar, toggleSidebar } = useAppContext();
 
     return (
         <Wrapper>
             <div
                 className={
-                    showSideBar ? 'sidebar-container ' : 'sidebar-container show-sidebar'
+                    showSidebar ? 'sidebar-container ' : 'sidebar-container show-sidebar'
                 }
             >
                 <div className="content">
