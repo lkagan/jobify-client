@@ -8,8 +8,11 @@ import {
     SETUP_USER_BEGIN,
     SETUP_USER_SUCCESS,
     SETUP_USER_ERROR,
+    UPDATE_USER_BEGIN,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_ERROR,
     TOGGLE_SIDEBAR,
-    LOGOUT_USER
+    LOGOUT_USER,
 } from "./actions";
 
 // Get default state from local storage if exists.
@@ -111,15 +114,27 @@ const AppProvider = ({ children }) => {
     }
 
     const updateUser = async (currentUser) => {
+        dispatch({ type: UPDATE_USER_BEGIN });
+
         try {
             const { data } = await authFetch.patch(
                 '/auth/update',
                 currentUser
             );
 
-            console.log(data);
+            const { user, location, token } = data;
+
+            dispatch({
+                type: UPDATE_USER_SUCCESS,
+                payload: { user, location, token, alertText: 'Profile updated' }
+            });
+
+            addUserToLocalStorage({ user, location, token });
         } catch (e) {
-            // console.log(e);
+            dispatch({
+                type: UPDATE_USER_ERROR,
+                payload: { msg: e.response.data.msg }
+            });
         }
     }
 

@@ -6,6 +6,9 @@ import {
     SETUP_USER_BEGIN,
     SETUP_USER_SUCCESS,
     SETUP_USER_ERROR,
+    UPDATE_USER_BEGIN,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_ERROR,
     TOGGLE_SIDEBAR,
     LOGOUT_USER
 } from "./actions";
@@ -20,9 +23,9 @@ const reducer = (state, action) => {
         }
     } else if (action.type === HIDE_ALERT) {
         return state;
-    } else if (action.type === SETUP_USER_BEGIN) {
+    } else if (action.type === SETUP_USER_BEGIN || action.type === UPDATE_USER_BEGIN) {
         return { ...state, isLoading: true };
-    } else if (action.type === SETUP_USER_SUCCESS) {
+    } else if (action.type === SETUP_USER_SUCCESS || action.type === UPDATE_USER_SUCCESS) {
         return {
             ...state,
             isLoading: false,
@@ -34,7 +37,7 @@ const reducer = (state, action) => {
             alertType: 'success',
             alertText: action.payload.alertText
         };
-    } else if (action.type === SETUP_USER_ERROR) {
+    } else if (action.type === SETUP_USER_ERROR || action.type === UPDATE_USER_ERROR) {
         return {
             ...state,
             isLoading: false,
