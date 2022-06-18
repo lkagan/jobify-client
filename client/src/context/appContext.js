@@ -42,7 +42,7 @@ const AppProvider = ({ children }) => {
     });
 
     authFetch.interceptors.request.use(config => {
-        // config.headers.common['Authorization'] = `Bearer ${ state.token }`;
+        config.headers.common['Authorization'] = `Bearer ${ state.token }`;
         return config;
     }, error => {
         return Promise.reject(error);
