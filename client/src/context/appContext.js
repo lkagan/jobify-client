@@ -113,7 +113,7 @@ const AppProvider = ({ children }) => {
         removeUserFromLocalStorage();
     }
 
-    const updateUser = async (currentUser) => {
+    const updateUser = async (currentUser, alertText) => {
         dispatch({ type: UPDATE_USER_BEGIN });
 
         try {
@@ -126,7 +126,7 @@ const AppProvider = ({ children }) => {
 
             dispatch({
                 type: UPDATE_USER_SUCCESS,
-                payload: { user, location, token, alertText: 'Profile updated' }
+                payload: { user, location, token, alertText }
             });
 
             addUserToLocalStorage({ user, location, token });
@@ -136,6 +136,8 @@ const AppProvider = ({ children }) => {
                 payload: { msg: e.response.data.msg }
             });
         }
+
+        hideAlert();
     }
 
     return (

@@ -17,7 +17,7 @@ const Profile = () => {
             return
         }
 
-        updateUser({ name, email, lastName, location });
+        updateUser({ name, email, lastName, location }, 'Profile updated');
     }
 
     return (

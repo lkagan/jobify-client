@@ -22,7 +22,12 @@ const reducer = (state, action) => {
             alertText: 'Please provide all values!',
         }
     } else if (action.type === HIDE_ALERT) {
-        return state;
+        return {
+            ...state,
+            showAlert: false,
+            alertType: '',
+            alertText: ''
+        }
     } else if (action.type === SETUP_USER_BEGIN || action.type === UPDATE_USER_BEGIN) {
         return { ...state, isLoading: true };
     } else if (action.type === SETUP_USER_SUCCESS || action.type === UPDATE_USER_SUCCESS) {
@@ -50,7 +55,7 @@ const reducer = (state, action) => {
             ...state,
             showSidebar: !state.showSidebar
         }
-    } else if(action.type == LOGOUT_USER) {
+    } else if(action.type === LOGOUT_USER) {
         return {
             ...initialState,
             user: null,
