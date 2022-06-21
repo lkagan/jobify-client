@@ -10,7 +10,8 @@ import {
     UPDATE_USER_SUCCESS,
     UPDATE_USER_ERROR,
     TOGGLE_SIDEBAR,
-    LOGOUT_USER
+    LOGOUT_USER,
+    HANDLE_CHANGE,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -63,6 +64,8 @@ const reducer = (state, action) => {
             userLocation: null,
             jobLocation: null
         }
+    } else if (action.type === HANDLE_CHANGE) {
+        return { ...state, [action.payload.name]: action.payload.value };
     }
      else {
         throw new Error('Action not found: ', action.type);

@@ -15,6 +15,7 @@ const AddJob = () => {
         jobTypeOptions,
         status,
         statusOptions,
+        handleChange,
     } = useAppContext();
 
     const handleSubmit = e => {
@@ -29,7 +30,7 @@ const AddJob = () => {
     }
 
     const handleJobInput = e => {
-        console.log(`${ e.target.name }: ${ e.target.value }`);
+        handleChange({ name: e.target.name, value: e.target.value });
     }
 
     return (
