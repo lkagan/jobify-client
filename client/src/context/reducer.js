@@ -12,63 +12,78 @@ import {
     TOGGLE_SIDEBAR,
     LOGOUT_USER,
     HANDLE_CHANGE,
+    CLEAR_VALUES,
 } from "./actions";
 
 const reducer = (state, action) => {
-    if (action.type === DISPLAY_ALERT) {
-        return {
-            ...state,
-            showAlert: true,
-            alertType: 'danger',
-            alertText: 'Please provide all values!',
-        }
-    } else if (action.type === HIDE_ALERT) {
-        return {
-            ...state,
-            showAlert: false,
-            alertType: '',
-            alertText: ''
-        }
-    } else if (action.type === SETUP_USER_BEGIN || action.type === UPDATE_USER_BEGIN) {
-        return { ...state, isLoading: true };
-    } else if (action.type === SETUP_USER_SUCCESS || action.type === UPDATE_USER_SUCCESS) {
-        return {
-            ...state,
-            isLoading: false,
-            token: action.payload.token,
-            user: action.payload.user,
-            userLocation: action.payload.location,
-            jobLocation: action.payload.location,
-            showAlert: true,
-            alertType: 'success',
-            alertText: action.payload.alertText
-        };
-    } else if (action.type === SETUP_USER_ERROR || action.type === UPDATE_USER_ERROR) {
-        return {
-            ...state,
-            isLoading: false,
-            showAlert: true,
-            alertType: 'danger',
-            alertText: action.payload.msg
-        };
-    } else if (action.type === TOGGLE_SIDEBAR) {
-        return {
-            ...state,
-            showSidebar: !state.showSidebar
-        }
-    } else if(action.type === LOGOUT_USER) {
-        return {
-            ...initialState,
-            user: null,
-            token: null,
-            userLocation: null,
-            jobLocation: null
-        }
-    } else if (action.type === HANDLE_CHANGE) {
-        return { ...state, [action.payload.name]: action.payload.value };
-    }
-     else {
-        throw new Error('Action not found: ', action.type);
+    switch (action.type) {
+        case DISPLAY_ALERT:
+            return {
+                ...state,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: 'Please provide all values!',
+            }
+        case HIDE_ALERT:
+            return {
+                ...state,
+                showAlert: false,
+                alertType: '',
+                alertText: ''
+            }
+        case SETUP_USER_BEGIN:
+        case UPDATE_USER_BEGIN:
+            return { ...state, isLoading: true }
+        case SETUP_USER_SUCCESS:
+        case UPDATE_USER_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                token: action.payload.token,
+                user: action.payload.user,
+                userLocation: action.payload.location,
+                jobLocation: action.payload.location,
+                showAlert: true,
+                alertType: 'success',
+                alertText: action.payload.alertText
+            }
+        case SETUP_USER_ERROR:
+        case UPDATE_USER_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg
+            }
+        case TOGGLE_SIDEBAR:
+            return {
+                ...state,
+                showSidebar: !state.showSidebar
+            }
+        case LOGOUT_USER:
+            return {
+                ...initialState,
+                user: null,
+                token: null,
+                userLocation: null,
+                jobLocation: null
+            }
+        case HANDLE_CHANGE:
+            return { ...state, [action.payload.name]: action.payload.value };
+        case CLEAR_VALUES:
+            return {
+                ...state,
+                isEditing: false,
+                editJobId: '',
+                position: '',
+                company: '',
+                jobLocation: state.userLocation,
+                jobType: 'full-time',
+                status: 'pending',
+            }
+        default:
+            throw new Error('Action not found: ', action.type);
     }
 }
 

@@ -14,6 +14,7 @@ import {
     TOGGLE_SIDEBAR,
     LOGOUT_USER,
     HANDLE_CHANGE,
+    CLEAR_VALUES,
 } from "./actions";
 
 // Get default state from local storage if exists.
@@ -156,6 +157,10 @@ const AppProvider = ({ children }) => {
         })
     }
 
+    const clearValues = () => {
+        dispatch({ type: CLEAR_VALUES });
+    }
+
     return (
         <AppContext.Provider
             value={ {
@@ -167,6 +172,7 @@ const AppProvider = ({ children }) => {
                 logoutUser,
                 updateUser,
                 handleChange,
+                clearValues,
             } }
         >
             { children }
