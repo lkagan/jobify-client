@@ -15,12 +15,15 @@ import {
     LOGOUT_USER,
     HANDLE_CHANGE,
     CLEAR_VALUES,
+    CREATE_JOB_BEGIN,
+    CREATE_JOB_SUCCESS,
+    CREATE_JOB_ERROR,
 } from "./actions";
 
 // Get default state from local storage if exists.
 const user = localStorage.getItem('user');
 const token = localStorage.getItem('token');
-const location = localStorage.getItem('location');
+const location = localStorage.getItem('location') || '';
 
 const initialState = {
     isLoading: false,
@@ -161,6 +164,32 @@ const AppProvider = ({ children }) => {
         dispatch({ type: CLEAR_VALUES });
     }
 
+    const createJob = async () => {
+        dispatch ({ type: CREATE_JOB_BEGIN });
+
+        try {
+            const {position, company, jobLocation, jobType, status, token } = state;
+
+            await authFetch.post('/jobs', {
+                company, position, jobLocation, jobType, status
+            });
+
+            dispatch({ type: CREATE_JOB_SUCCESS });
+            dispatch({ type: CLEAR_VALUES });
+        } catch (e) {
+            if (e.response.status === 401) {
+                return
+            }
+
+            dispatch({
+                type: CREATE_JOB_ERROR,
+                payload: { msg: e.response.data.msg }
+            });
+        }
+
+        hideAlert();
+    }
+
     return (
         <AppContext.Provider
             value={ {
@@ -173,6 +202,7 @@ const AppProvider = ({ children }) => {
                 updateUser,
                 handleChange,
                 clearValues,
+                createJob,
             } }
         >
             { children }

@@ -13,6 +13,9 @@ import {
     LOGOUT_USER,
     HANDLE_CHANGE,
     CLEAR_VALUES,
+    CREATE_JOB_BEGIN,
+    CREATE_JOB_SUCCESS,
+    CREATE_JOB_ERROR,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -23,17 +26,17 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: 'Please provide all values!',
-            }
+            };
         case HIDE_ALERT:
             return {
                 ...state,
                 showAlert: false,
                 alertType: '',
                 alertText: ''
-            }
+            };
         case SETUP_USER_BEGIN:
         case UPDATE_USER_BEGIN:
-            return { ...state, isLoading: true }
+            return { ...state, isLoading: true };
         case SETUP_USER_SUCCESS:
         case UPDATE_USER_SUCCESS:
             return {
@@ -46,7 +49,7 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'success',
                 alertText: action.payload.alertText
-            }
+            };
         case SETUP_USER_ERROR:
         case UPDATE_USER_ERROR:
             return {
@@ -55,12 +58,12 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: action.payload.msg
-            }
+            };
         case TOGGLE_SIDEBAR:
             return {
                 ...state,
                 showSidebar: !state.showSidebar
-            }
+            };
         case LOGOUT_USER:
             return {
                 ...initialState,
@@ -68,7 +71,7 @@ const reducer = (state, action) => {
                 token: null,
                 userLocation: null,
                 jobLocation: null
-            }
+            };
         case HANDLE_CHANGE:
             return { ...state, [action.payload.name]: action.payload.value };
         case CLEAR_VALUES:
@@ -81,7 +84,25 @@ const reducer = (state, action) => {
                 jobLocation: state.userLocation,
                 jobType: 'full-time',
                 status: 'pending',
-            }
+            };
+        case CREATE_JOB_BEGIN:
+            return { ...state, isLoading: true };
+        case CREATE_JOB_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'New Job Created!'
+            };
+        case CREATE_JOB_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert:  true,
+                alertType: 'danger',
+                alertText: action.payload.msg
+            };
         default:
             throw new Error('Action not found: ', action.type);
     }
