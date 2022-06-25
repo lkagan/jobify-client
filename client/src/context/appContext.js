@@ -207,7 +207,6 @@ const AppProvider = ({ children }) => {
             });
         } catch (e) {
             console.log(e.response);
-            logoutUser();
         }
 
         hideAlert();
