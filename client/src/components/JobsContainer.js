@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { useAppContext } from "../context/appContext";
 import Wrapper from "../assets/wrappers/JobsContainer";
+import Job from './Job';
+import Loading from "./Loading";
 
 const JobsContainer = () => {
     const { getJobs, jobs, isLoading, page, totalJobs } = useAppContext();
 
     useEffect(() => {
         getJobs()
-    });
+    }, []);
 
     if (isLoading) {
-        return <h1>loading...</h1>
+        return <Loading center />
     }
 
     if (jobs.length === 0) {
@@ -22,9 +24,15 @@ const JobsContainer = () => {
     }
 
     return (
-        <div>
-            Jobs Container
-        </div>
+        <Wrapper>
+            <h5>{totalJobs} job{jobs.length > 1 && 's'} found</h5>
+
+            {
+                jobs.map(job => {
+                    return <Job key={job._id} {...job} />
+                })
+            }
+        </Wrapper>
     );
 };
 
