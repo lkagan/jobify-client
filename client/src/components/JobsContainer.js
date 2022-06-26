@@ -12,7 +12,7 @@ const JobsContainer = () => {
     }, []);
 
     if (isLoading) {
-        return <Loading center />
+        return <Loading center/>
     }
 
     if (jobs.length === 0) {
@@ -25,13 +25,13 @@ const JobsContainer = () => {
 
     return (
         <Wrapper>
-            <h5>{totalJobs} job{jobs.length > 1 && 's'} found</h5>
-
-            {
+            <h5>{ totalJobs } job{ jobs.length > 1 && 's' } found</h5>
+            <div className="jobs"> {
                 jobs.map(job => {
-                    return <Job key={job._id} {...job} />
+                    return <Job key={ job._id } { ...job } />
                 })
             }
+            </div>
         </Wrapper>
     );
 };
