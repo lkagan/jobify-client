@@ -18,6 +18,10 @@ import {
     CREATE_JOB_BEGIN,
     CREATE_JOB_SUCCESS,
     CREATE_JOB_ERROR,
+    SET_EDIT_JOB,
+    EDIT_JOB_BEGIN,
+    EDIT_JOB_SUCCESS,
+    EDIT_JOB_ERROR,
     GET_JOBS_BEGIN,
     GET_JOBS_SUCCESS,
     DELETE_JOB_BEGIN,
@@ -214,7 +218,31 @@ const AppProvider = ({ children }) => {
     }
 
     const setEditJob = (id) => {
-        console.log(`set edit job: ${id}`);
+        dispatch({ type: SET_EDIT_JOB, payload: { id }});
+    }
+
+    const editJob = async (id) => {
+        dispatch({ type: EDIT_JOB_BEGIN });
+
+        try {
+            const { position, company, jobLocation, jobType, status } = state;
+
+            await authFetch.patch(`/jobs/${state.editJobId}`, {
+                company, position, jobLocation, jobType, status
+            });
+
+            dispatch({ type: EDIT_JOB_SUCCESS });
+            dispatch({ type: CLEAR_VALUES });
+        } catch (e) {
+            if (e.response.status === 401) return;
+
+            dispatch({
+                type: EDIT_JOB_ERROR,
+                payload: { msg: e.response.data.msg }
+            });
+        }
+
+        hideAlert();
     }
 
     const deleteJob = async (id) => {
@@ -242,7 +270,8 @@ const AppProvider = ({ children }) => {
                 createJob,
                 getJobs,
                 setEditJob,
-                deleteJob
+                deleteJob,
+                editJob,
             } }
         >
             { children }

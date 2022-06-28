@@ -16,6 +16,10 @@ import {
     CREATE_JOB_BEGIN,
     CREATE_JOB_SUCCESS,
     CREATE_JOB_ERROR,
+    SET_EDIT_JOB,
+    EDIT_JOB_BEGIN,
+    EDIT_JOB_SUCCESS,
+    EDIT_JOB_ERROR,
     GET_JOBS_BEGIN,
     GET_JOBS_SUCCESS,
     DELETE_JOB_BEGIN,
@@ -113,6 +117,37 @@ const reducer = (state, action) => {
             return { ...state, isLoading: false, jobs, totalJobs, numOfPages };
         case DELETE_JOB_BEGIN:
             return { ...state, isLoading: true };
+        case SET_EDIT_JOB:
+            const job = state.jobs.find(job => job._id === action.payload.id);
+            const { _id, position, company, jobLocation, jobType, status } = job;
+            return {
+                ...state,
+                isEditing: true,
+                editJobId: _id,
+                position,
+                company,
+                jobLocation,
+                jobType,
+                status,
+            };
+        case EDIT_JOB_BEGIN:
+            return { ...state, isLoading: true };
+        case EDIT_JOB_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Job updated',
+            };
+        case EDIT_JOB_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg,
+            };
         default:
             throw new Error('Action not found: ', action.type);
     }

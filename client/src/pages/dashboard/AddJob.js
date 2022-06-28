@@ -10,6 +10,7 @@ const AddJob = () => {
         position,
         company,
         isEditing,
+        editJob,
         isLoading,
         jobLocation,
         jobType,
@@ -30,6 +31,7 @@ const AddJob = () => {
         }
 
         if (isEditing) {
+            editJob()
             return;
         }
 
