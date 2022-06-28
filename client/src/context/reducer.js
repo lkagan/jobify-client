@@ -18,6 +18,7 @@ import {
     CREATE_JOB_ERROR,
     GET_JOBS_BEGIN,
     GET_JOBS_SUCCESS,
+    DELETE_JOB_BEGIN,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -110,6 +111,8 @@ const reducer = (state, action) => {
         case GET_JOBS_SUCCESS:
             const { jobs, totalJobs, numOfPages} = action.payload;
             return { ...state, isLoading: false, jobs, totalJobs, numOfPages };
+        case DELETE_JOB_BEGIN:
+            return { ...state, isLoading: true };
         default:
             throw new Error('Action not found: ', action.type);
     }

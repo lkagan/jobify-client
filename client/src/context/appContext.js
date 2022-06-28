@@ -20,6 +20,7 @@ import {
     CREATE_JOB_ERROR,
     GET_JOBS_BEGIN,
     GET_JOBS_SUCCESS,
+    DELETE_JOB_BEGIN,
 } from "./actions";
 
 // Get default state from local storage if exists.
@@ -216,8 +217,14 @@ const AppProvider = ({ children }) => {
         console.log(`set edit job: ${id}`);
     }
 
-    const deleteJob = (id) => {
-        console.log(`delete job: ${id}`);
+    const deleteJob = async (id) => {
+        dispatch( {type: DELETE_JOB_BEGIN} );
+        try {
+            await authFetch.delete(`/jobs/${ id }`);
+            getJobs();
+        } catch (e) {
+            console.log(e.toJSON());
+        }
     }
 
     return (
