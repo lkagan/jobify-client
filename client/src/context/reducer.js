@@ -23,6 +23,8 @@ import {
     GET_JOBS_BEGIN,
     GET_JOBS_SUCCESS,
     DELETE_JOB_BEGIN,
+    SHOW_STATS_BEGIN,
+    SHOW_STATS_SUCCESS,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -147,6 +149,19 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: action.payload.msg,
+            };
+        case SHOW_STATS_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+                showAlert: false,
+            };
+        case SHOW_STATS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                stats: action.payload.stats,
+                monthlyApplications: action.payload.monthlyApplications,
             };
         default:
             throw new Error('Action not found: ', action.type);
