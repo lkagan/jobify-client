@@ -1,10 +1,21 @@
 import React from 'react';
 import Wrapper from '../assets/wrappers/SearchContainer';
 import { useAppContext } from "../context/appContext";
-import { FormRow } from "./index";
+import { FormRow, FormRowSelect } from "./index";
 
 const SearchContainer = () => {
-    const { isLoading, handleChange, search } = useAppContext()
+    const {
+        isLoading,
+        handleChange,
+        search,
+        searchStatus,
+        statusOptions,
+        jobType,
+        jobTypeOptions,
+        sort,
+        sortOptions,
+        clearValues,
+    } = useAppContext()
 
     const handleSearch = (e) => {
         if (isLoading) return;
@@ -22,6 +33,35 @@ const SearchContainer = () => {
                         value={ search }
                         handleChange={ handleSearch }
                     />
+                    <FormRowSelect
+                        labelText="status"
+                        name="searchStatus"
+                        value={ searchStatus }
+                        handleChange={ handleSearch }
+                        list={ ['all', ...statusOptions] }
+                    />
+                    <FormRowSelect
+                        labelText="type"
+                        name="jobType"
+                        value={ jobType }
+                        handleChange={ handleSearch }
+                        list={ ['all', ...jobTypeOptions] }
+                    />
+                    <FormRowSelect
+                        labelText="sort"
+                        name="sort"
+                        value={ sort }
+                        handleChange={ handleSearch }
+                        list={ sortOptions }
+                    />
+                    <button
+                        type="button"
+                        className="btn btn-block btn-danger"
+                        disabled={ isLoading }
+                        onClick={ clearValues }
+                    >
+                        clear filters
+                    </button>
                 </div>
             </form>
         </Wrapper>
