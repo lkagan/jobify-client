@@ -25,6 +25,7 @@ import {
     DELETE_JOB_BEGIN,
     SHOW_STATS_BEGIN,
     SHOW_STATS_SUCCESS,
+    CLEAR_FILTERS,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -162,6 +163,14 @@ const reducer = (state, action) => {
                 isLoading: false,
                 stats: action.payload.stats,
                 monthlyApplications: action.payload.monthlyApplications,
+            };
+        case CLEAR_FILTERS:
+            return {
+                ...state,
+                search: '',
+                jobType: 'all',
+                searchStatus: 'all',
+                sort: 'latest',
             };
         default:
             throw new Error('Action not found: ', action.type);

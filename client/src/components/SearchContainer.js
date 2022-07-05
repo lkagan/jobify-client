@@ -14,7 +14,7 @@ const SearchContainer = () => {
         jobTypeOptions,
         sort,
         sortOptions,
-        clearValues,
+        clearFilters,
     } = useAppContext()
 
     const handleSearch = (e) => {
@@ -58,7 +58,7 @@ const SearchContainer = () => {
                         type="button"
                         className="btn btn-block btn-danger"
                         disabled={ isLoading }
-                        onClick={ clearValues }
+                        onClick={ clearFilters }
                     >
                         clear filters
                     </button>
