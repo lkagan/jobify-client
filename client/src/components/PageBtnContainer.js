@@ -7,11 +7,13 @@ const PageBtnContainer = () => {
     const { numOfPages, page, changePage } = useAppContext();
 
     const prevPage = () => {
-        console.log('previous page');
+        let newPage = page === 1 ? 1 : page - 1;
+        changePage(newPage);
     }
 
     const nextPage = () => {
-        console.log('next page');
+        let newPage = page === numOfPages ? numOfPages : numOfPages + 1
+        changePage(newPage);
     }
 
     const getButtons = () => {
