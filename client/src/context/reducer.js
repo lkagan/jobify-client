@@ -26,6 +26,7 @@ import {
     SHOW_STATS_BEGIN,
     SHOW_STATS_SUCCESS,
     CLEAR_FILTERS,
+    CHANGE_PAGE,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -171,6 +172,11 @@ const reducer = (state, action) => {
                 jobType: 'all',
                 searchStatus: 'all',
                 sort: 'latest',
+            };
+        case CHANGE_PAGE:
+            return {
+                ...state,
+                page: action.payload.page
             };
         default:
             throw new Error('Action not found: ', action.type);

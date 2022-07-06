@@ -2,6 +2,7 @@ import React from 'react';
 import Wrapper from '../assets/wrappers/SearchContainer';
 import { useAppContext } from "../context/appContext";
 import { FormRow, FormRowSelect } from "./index";
+import PageBtnContainer from "./PageBtnContainer";
 
 const SearchContainer = () => {
     const {
@@ -15,6 +16,7 @@ const SearchContainer = () => {
         sort,
         sortOptions,
         clearFilters,
+        numOfPages,
     } = useAppContext()
 
     const handleSearch = (e) => {
@@ -64,6 +66,7 @@ const SearchContainer = () => {
                     </button>
                 </div>
             </form>
+            { numOfPages > 1 && <PageBtnContainer/> }
         </Wrapper>
     );
 };
