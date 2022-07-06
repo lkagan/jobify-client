@@ -84,7 +84,11 @@ const reducer = (state, action) => {
                 jobLocation: null
             };
         case HANDLE_CHANGE:
-            return { ...state, [action.payload.name]: action.payload.value };
+            return {
+                ...state,
+                page: 1,
+                [action.payload.name]: action.payload.value
+            };
         case CLEAR_VALUES:
             return {
                 ...state,
