@@ -212,10 +212,20 @@ const AppProvider = ({ children }) => {
     }
 
     const getJobs = async () => {
+        const { search, searchStatus, searchType, sort } = state;
         dispatch({ type: GET_JOBS_BEGIN });
 
         try {
-            const { data: { jobs, totalJobs, numOfPages } } = await authFetch('/jobs')
+            const params = {
+                search,
+                status: searchStatus,
+                jobType: searchType,
+                sort
+            };
+
+            const { data } = await authFetch.get('/jobs', {params});
+            const { jobs, totalJobs, numOfPages } = data;
+
             dispatch({
                 type: GET_JOBS_SUCCESS,
                 payload: { jobs, totalJobs, numOfPages }

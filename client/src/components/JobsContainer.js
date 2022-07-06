@@ -5,11 +5,22 @@ import Job from './Job';
 import Loading from "./Loading";
 
 const JobsContainer = () => {
-    const { getJobs, jobs, isLoading, page, totalJobs } = useAppContext();
+    const {
+        getJobs,
+        jobs,
+        isLoading,
+        page,
+        totalJobs,
+        search,
+        searchStatus,
+        jobType,
+        searchType,
+        sort
+    } = useAppContext();
 
     useEffect(() => {
         getJobs()
-    }, []);
+    }, [search, searchStatus, jobType, searchType, sort]);
 
     if (isLoading) {
         return <Loading center/>
