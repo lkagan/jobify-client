@@ -18,7 +18,7 @@ const ButtonSecond = styled.button`
 function App() {
     return (
         <>
-            <BrowserRouter>
+            <BrowserRouter basename={`${process.env.REACT_APP_BASEPATH}`}>
                 <Routes>
                     <Route path="/" element={<SharedLayout />}>
                         <Route index element={<Stats />} />

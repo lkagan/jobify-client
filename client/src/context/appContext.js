@@ -73,7 +73,7 @@ const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const authFetch = axios.create({
-        baseURL: '/api/v1/',
+        baseURL: process.env.REACT_APP_API_URL,
     });
 
     authFetch.interceptors.request.use(config => {
