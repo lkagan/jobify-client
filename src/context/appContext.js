@@ -116,7 +116,7 @@ const AppProvider = ({ children }) => {
     const setupUser = async ({ currentUser, endPoint, alertText }) => {
         dispatch({ type: SETUP_USER_BEGIN });
         try {
-            const { data } = await axios.post(`/api/v1/auth/${ endPoint }`, currentUser);
+            const { data } = await axios.post(`/auth/${ endPoint }`, currentUser);
             const { user, token, location } = data;
 
             dispatch({
