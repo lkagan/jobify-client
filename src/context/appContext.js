@@ -71,19 +71,17 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+    const authAxios = axios.create();
 
-    const authFetch = axios.create({
-        baseURL: process.env.REACT_APP_API_URL,
-    });
-
-    authFetch.interceptors.request.use(config => {
+    authAxios.interceptors.request.use(config => {
         config.headers.common['Authorization'] = `Bearer ${ state.token }`;
         return config;
     }, error => {
         return Promise.reject(error);
     });
 
-    authFetch.interceptors.response.use(response => response, error => {
+    authAxios.interceptors.response.use(response => response, error => {
         if (error.response.status === 401) {
             logoutUser();
         }
@@ -150,7 +148,7 @@ const AppProvider = ({ children }) => {
         dispatch({ type: UPDATE_USER_BEGIN });
 
         try {
-            const { data } = await authFetch.patch(
+            const { data } = await authAxios.patch(
                 '/auth/update',
                 currentUser
             );
@@ -192,7 +190,7 @@ const AppProvider = ({ children }) => {
         try {
             const {position, company, jobLocation, jobType, status, token } = state;
 
-            await authFetch.post('/jobs', {
+            await authAxios.post('/jobs', {
                 company, position, jobLocation, jobType, status
             });
 
@@ -225,7 +223,7 @@ const AppProvider = ({ children }) => {
                 page
             };
 
-            const { data } = await authFetch.get('/jobs', {params});
+            const { data } = await authAxios.get('/jobs', {params});
             const { jobs, totalJobs, numOfPages } = data;
 
             dispatch({
@@ -249,7 +247,7 @@ const AppProvider = ({ children }) => {
         try {
             const { position, company, jobLocation, jobType, status } = state;
 
-            await authFetch.patch(`/jobs/${state.editJobId}`, {
+            await authAxios.patch(`/jobs/${state.editJobId}`, {
                 company, position, jobLocation, jobType, status
             });
 
@@ -270,7 +268,7 @@ const AppProvider = ({ children }) => {
     const deleteJob = async (id) => {
         dispatch( {type: DELETE_JOB_BEGIN} );
         try {
-            await authFetch.delete(`/jobs/${ id }`);
+            await authAxios.delete(`/jobs/${ id }`);
             getJobs();
         } catch (e) {
             console.log(e.toJSON());
@@ -281,7 +279,7 @@ const AppProvider = ({ children }) => {
         dispatch({ type: SHOW_STATS_BEGIN })
 
         try {
-            const { data } = await authFetch('/jobs/stats');
+            const { data } = await authAxios('/jobs/stats');
             const { stats, monthlyApplications } = data;
 
             dispatch({
